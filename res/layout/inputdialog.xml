@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_root"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="top"
+    android:orientation="horizontal" >
+
+    <EditText
+        android:id="@+id/inputtextdialog"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.25"
+        android:gravity="top"
+        android:hint="Enter text... (140 characters limit)"
+        android:imeOptions="actionGo|actionSend|actionNext|actionDone"
+        android:inputType="textShortMessage|textCapSentences|textAutoCorrect|textMultiLine"
+        android:maxLength="140"
+        android:maxLines="3" />
+    <!-- android:lines="3" -->
+    <!-- android:inputType="textShortMessage|textCapSentences|textAutoCorrect|textMultiLine"" -->
+    <!-- android:imeOptions="flagNoEnterAction" -->
+
+    <Button
+        android:id="@+id/encodebutton"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="0.75"
+        android:text="Encode" />
+
+</LinearLayout>

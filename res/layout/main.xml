@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/bablrr_bgnd"
+    android:stretchColumns="1,3" >
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/titleimg"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_span="5"
+            android:src="@drawable/bablrr_txt2" />
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_span="5"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/textimageview"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center_horizontal" />
+        </LinearLayout>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <!--
+             <Button 
+            android:id="@+id/backbutton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_marginBottom="@dimen/buttonPad"
+            android:layout_marginTop="@dimen/buttonPad"
+            android:text="Restart" />
+        -->
+        <!-- android:layout_weight="1" -->
+
+        <Button
+            android:id="@+id/backbutton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_marginBottom="@dimen/buttonPad"
+            android:layout_marginTop="@dimen/buttonPad"
+            android:background="@drawable/bablrr_button_restart" />
+
+        <!--
+             <Button 
+            android:id="@+id/regenbutton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_marginBottom="@dimen/buttonPad"
+            android:layout_marginTop="@dimen/buttonPad"
+            android:layout_weight="1"
+            android:text="Re-Make" />
+        -->
+
+        <Button
+            android:id="@+id/regenbutton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:layout_marginBottom="@dimen/buttonPad"
+            android:layout_marginTop="@dimen/buttonPad"
+            android:background="@drawable/bablrr_button_remake" />
+
+        <!--
+             <Button 
+            android:id="@+id/sharebutton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:layout_marginBottom="@dimen/buttonPad"
+            android:layout_marginTop="@dimen/buttonPad"
+            android:layout_weight="1"
+            android:text="Save &amp; Share" />
+        -->
+
+        <Button
+            android:id="@+id/sharebutton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="4"
+            android:layout_marginBottom="@dimen/buttonPad"
+            android:layout_marginTop="@dimen/buttonPad"
+            android:background="@drawable/bablrr_button_share" />
+        <!--
+             <Button 
+            android:id="@+id/quitbutton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_column="2"
+            android:layout_marginBottom="@dimen/buttonPad"
+            android:layout_marginTop="@dimen/buttonPad"
+            android:layout_weight="1"
+            android:text="Quit" />
+        -->
+    </TableRow>
+
+</TableLayout>
