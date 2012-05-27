@@ -9,6 +9,8 @@ import java.io.OutputStream;
 import java.lang.Math;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.HttpResponse;
@@ -24,6 +26,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -79,9 +82,12 @@ public class BablrrActivity extends TApplet {
 	// dialog ids
 	private static final int INPUTTEXTDIALOG = 0;
 	private static final int SHAREDIALOG = 1;
+	private static final int SPLASHDIALOG = 2;
+	private static final int INFODIALOG = 3;
 
 	// some state variables
 	//private boolean showingDialog = false;
+	private boolean dismissedSplash = false;
 
 	// text message. or leave blank for prompt
 	private String theStringMessage = null;// = "Is this too long enough for you! Answer me please! thank you!";
@@ -135,7 +141,6 @@ public class BablrrActivity extends TApplet {
 							}
 						}).start();
 						Toast.makeText(BablrrActivity.this, "Generating Image", Toast.LENGTH_SHORT ).show();
-
 						//genImageFromText();
 						//showImageFromText();
 						//textInput.setText("");
@@ -144,10 +149,10 @@ public class BablrrActivity extends TApplet {
 			});
 
 			alert.setView(vg);
-			
+
 			AlertDialog ad = alert.create();
 			ad.getWindow().setGravity(Gravity.BOTTOM);
-			
+
 			return ad;
 
 			// on positive button
@@ -259,6 +264,49 @@ public class BablrrActivity extends TApplet {
 			ad.getWindow().setGravity(Gravity.TOP);
 			return ad;
 		}
+		////////
+		else if(id == SPLASHDIALOG){
+			System.out.println("!!! from SPLASHDIALOG");
+			AlertDialog.Builder alert = new AlertDialog.Builder(this);
+			AlertDialog ad = alert.create();
+			final LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+
+			final View vg = inflater.inflate(com.hersan.bablrr.R.layout.splashdialog,
+					(ViewGroup) findViewById(com.hersan.bablrr.R.id.splashdialog_root));
+
+			ad.setView(vg);
+			ad.setCanceledOnTouchOutside(true);
+			ad.setOnCancelListener(new DialogInterface.OnCancelListener(){
+				@Override
+				public void onCancel(DialogInterface dialog){
+					dismissDialog(SPLASHDIALOG);
+					dismissedSplash = true;
+					showDialog(INPUTTEXTDIALOG);
+				}
+			});
+			return ad;
+		}
+		////////
+		else if(id == INFODIALOG){
+			System.out.println("!!! from INFODIALOG");
+			AlertDialog.Builder alert = new AlertDialog.Builder(this);
+			AlertDialog ad = alert.create();
+			final LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+
+			final View vg = inflater.inflate(com.hersan.bablrr.R.layout.infodialog,
+					(ViewGroup) findViewById(com.hersan.bablrr.R.id.infodialog_root));
+
+			ad.setView(vg);
+			ad.setCanceledOnTouchOutside(true);
+			ad.setOnCancelListener(new DialogInterface.OnCancelListener(){
+				@Override
+				public void onCancel(DialogInterface dialog){
+					dismissDialog(INFODIALOG);
+				}
+			});
+
+			return ad;
+		}
 
 		return null;
 	}
@@ -282,6 +330,7 @@ public class BablrrActivity extends TApplet {
 			return true;
 		case com.hersan.bablrr.R.id.infobutton:
 			// TODO: add info dialog
+			showDialog(INFODIALOG);
 			return true;
 		default: 
 			return false;
@@ -382,7 +431,29 @@ public class BablrrActivity extends TApplet {
 		// if message is not set, prompt user for message
 		// get text message from inbput dialog
 		if((theStringMessage == null) || (theStringMessage.equals(""))){
-			showDialog(INPUTTEXTDIALOG);
+			if(dismissedSplash == true){
+				showDialog(INPUTTEXTDIALOG);
+			}
+			else{
+				showDialog(SPLASHDIALOG);
+				final Timer mt = new Timer();
+				mt.schedule(new TimerTask(){
+					@Override
+					public void run(){
+						runOnUiThread(new Runnable(){
+							@Override
+							public void run(){
+								System.out.println("!!!!: canceled from schedule task!!");
+								dismissDialog(SPLASHDIALOG);
+								dismissedSplash = true;
+								showDialog(INPUTTEXTDIALOG);
+								mt.cancel();								
+							}
+						});
+						
+					}
+				}, 5000);
+			}
 		}
 
 		// onResume can happen a few times. Only do stuff if the message or image is not set.
