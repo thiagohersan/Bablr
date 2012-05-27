@@ -7,7 +7,7 @@
     <uses-sdk android:minSdkVersion="4" />
 
     <application
-        android:icon="@drawable/bablrr_sq"
+        android:icon="@drawable/bablrr_ic"
         android:label="@string/app_name"
         android:name=".BablrrApplication" >
         <activity
@@ -26,9 +26,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="callback" />
+                <data android:scheme="bablrrcallback" />
             </intent-filter>
         </activity>
     </application>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
