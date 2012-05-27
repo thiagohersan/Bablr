@@ -2,10 +2,12 @@
 <resources>
 
     <string name="app_name">bablrr</string>
-    <!-- <string name="other_name">Foil</string> -->
+    <string name="splash_text">Welcome to bablrr!\nBabel on!</string>
+    <string name="info_text">This is the info dialog of bablrr\n\nhttp://www.bablr.com\n\nbablrrmobile@gmail.com</string>
 
-    <dimen name="buttonPad">5dp</dimen>
+    <dimen name="mainButtonPad">5dp</dimen>
     <dimen name="textBoxPad">15dp</dimen>
+        <dimen name="buttonIconPad">-10dp</dimen>
     <dimen name="shareButtonPad">20dp</dimen>
     <dimen name="shareTablePad">30dp</dimen>
 

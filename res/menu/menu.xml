@@ -3,12 +3,12 @@
 
     <item
         android:id="@+id/infobutton"
-        android:icon="@drawable/bablrr_sq"
+        android:icon="@drawable/bablrr_menu_info"
         android:title="info"/>
 
     <item
         android:id="@+id/quitbutton"
-        android:icon="@drawable/bablrr_sq"
+        android:icon="@drawable/bablrr_menu_exit"
         android:title="quit"/>
 
 </menu>

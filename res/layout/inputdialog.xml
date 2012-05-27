@@ -10,22 +10,19 @@
         android:id="@+id/inputtextdialog"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.25"
+        android:layout_weight="0.3"
         android:gravity="top"
         android:hint="Enter text... (140 characters limit)"
         android:imeOptions="actionGo|actionSend|actionNext|actionDone"
         android:inputType="textShortMessage|textCapSentences|textAutoCorrect|textMultiLine"
         android:maxLength="140"
         android:maxLines="3" />
-    <!-- android:lines="3" -->
-    <!-- android:inputType="textShortMessage|textCapSentences|textAutoCorrect|textMultiLine"" -->
-    <!-- android:imeOptions="flagNoEnterAction" -->
 
     <Button
         android:id="@+id/encodebutton"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="0.75"
-        android:text="Encode" />
+        android:layout_weight="0.7"
+        android:text="encode" />
 
 </LinearLayout>
