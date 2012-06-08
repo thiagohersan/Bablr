@@ -96,7 +96,7 @@ public class BablrrActivity extends TApplet {
 	private ImageView imageSurface;
 	private Button encodeButton;
 	private Button backButton, regenButton, shareButton;
-	private Button emailButton, tweetButton, faceButton;
+	private Button emailButton, tweetButton, faceButton, saveButton;
 
 	// private of privates
 	private Message myMessage = null;
@@ -198,15 +198,35 @@ public class BablrrActivity extends TApplet {
 			emailButton = (Button) vg.findViewById(com.hersan.bablrr.R.id.emailbutton);
 			tweetButton = (Button) vg.findViewById(com.hersan.bablrr.R.id.tweetbutton);
 			faceButton = (Button) vg.findViewById(com.hersan.bablrr.R.id.facebutton);
+			saveButton = (Button) vg.findViewById(com.hersan.bablrr.R.id.savebutton);
 
 			// email button : if image has been generated, email it.
 			emailButton.setOnClickListener(new View.OnClickListener() {
 				public void onClick(View v) {
-					// save generated image to file
+					// save generated image to file and email it
 					if((myMessage != null) && (toShow != null)) sendEmail();
 					dismissDialog(SHAREDIALOG);
 				}
 			});
+
+			// save button : if image has been generated, and not saved, save it.
+			saveButton.setOnClickListener(new View.OnClickListener() {
+				public void onClick(View v) {
+					// save generated image to file
+					// check if we have an image
+					if((myMessage != null)&&(toShow != null)){
+						// check if we already saved it
+						if(imgUri != null){
+							Toast.makeText(BablrrActivity.this, "Image already saved", Toast.LENGTH_SHORT ).show();	
+						}
+						else{
+							BablrrActivity.this.saveImage();
+						}
+					}
+					dismissDialog(SHAREDIALOG);
+				}
+			});
+
 
 			// tweet button. Jesus...
 			//  using thread to get smooth click look
@@ -379,8 +399,9 @@ public class BablrrActivity extends TApplet {
 			public void onClick(View v) {
 				// TODO: figure out if we should always save before sharing
 				// save image before sharing it
+				/// naahhhh !
 				if((imgUri == null)&&(myMessage != null)&&(toShow != null)){
-					BablrrActivity.this.saveImage();
+					//BablrrActivity.this.saveImage();
 				}
 				showDialog(SHAREDIALOG);
 			}
@@ -450,7 +471,7 @@ public class BablrrActivity extends TApplet {
 								mt.cancel();								
 							}
 						});
-						
+
 					}
 				}, 5000);
 			}
