@@ -32,6 +32,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Html;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -183,7 +184,6 @@ public class BablrrActivity extends TApplet {
 		////////
 		else if(id == SHAREDIALOG){
 			System.out.println("!!! from SHAREDIALOG");
-			// TODO: Make this better
 			final AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
 			// build view group dynamically
@@ -295,6 +295,7 @@ public class BablrrActivity extends TApplet {
 					(ViewGroup) findViewById(com.hersan.bablrr.R.id.splashdialog_root));
 
 			ad.setView(vg);
+			// TODO : dismiss on any click !
 			ad.setCanceledOnTouchOutside(true);
 			ad.setOnCancelListener(new DialogInterface.OnCancelListener(){
 				@Override
@@ -349,7 +350,7 @@ public class BablrrActivity extends TApplet {
 			finish();
 			return true;
 		case com.hersan.bablrr.R.id.infobutton:
-			// TODO: add info dialog
+			// TODO: add info dialog text
 			showDialog(INFODIALOG);
 			return true;
 		default: 
@@ -397,9 +398,7 @@ public class BablrrActivity extends TApplet {
 		// share button. Save image and bring up share dialog
 		shareButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				// TODO: figure out if we should always save before sharing
-				// save image before sharing it
-				/// naahhhh !
+				// don't always save image before sharing it
 				if((imgUri == null)&&(myMessage != null)&&(toShow != null)){
 					//BablrrActivity.this.saveImage();
 				}
@@ -456,6 +455,7 @@ public class BablrrActivity extends TApplet {
 				showDialog(INPUTTEXTDIALOG);
 			}
 			else{
+				// TODO : only show this the very first time (????)
 				showDialog(SPLASHDIALOG);
 				final Timer mt = new Timer();
 				mt.schedule(new TimerTask(){
@@ -941,6 +941,8 @@ public class BablrrActivity extends TApplet {
 		// from : http://mobile.tutsplus.com/tutorials/android/android-email-intent/
 		Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 		emailIntent.setType("image/jpeg");
+		emailIntent.putExtra(Intent.EXTRA_SUBJECT, "");
+		emailIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(""));
 		emailIntent.putExtra(android.content.Intent.EXTRA_STREAM, imgUri);
 		startActivity(Intent.createChooser(emailIntent, "Choose your email program: "));
 	}
