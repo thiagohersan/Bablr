@@ -98,6 +98,9 @@ public class BablrrActivity extends TApplet {
 	private Button encodeButton;
 	private Button backButton, regenButton, shareButton;
 	private Button emailButton, tweetButton, faceButton, saveButton;
+	
+	// some of the dialogs
+	private AlertDialog splashDialog, infoDialog;
 
 	// private of privates
 	private Message myMessage = null;
@@ -135,16 +138,16 @@ public class BablrrActivity extends TApplet {
 								genImageFromText();
 								dismissDialog(INPUTTEXTDIALOG);
 								// but can't update image view from thread
-								imageSurface.post(new Runnable(){
+								runOnUiThread(new Runnable(){
 									// imageSurface.setImageBitmap(toShow);
-									public void run(){showImageFromText();}
+									public void run(){
+										onResumeCreateHelper();
+										showImageFromText();
+									}
 								});
 							}
 						}).start();
 						Toast.makeText(BablrrActivity.this, "Generating Image", Toast.LENGTH_SHORT ).show();
-						//genImageFromText();
-						//showImageFromText();
-						//textInput.setText("");
 					}					
 				}
 			});
@@ -155,31 +158,6 @@ public class BablrrActivity extends TApplet {
 			ad.getWindow().setGravity(Gravity.BOTTOM);
 
 			return ad;
-
-			// on positive button
-			/*
-			alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					theStringMessage = textInput.getText().toString();
-					if(!theStringMessage.equals("")){
-						genImageFromText();
-						showImageFromText();
-						//textInput.setText("");
-					}
-				}
-			});
-			 */
-
-			// on negative button
-			/*
-			alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int whichButton) {
-					finish();
-				}
-			});
-			 */
-
-			//return alert.create();
 		}
 		////////
 		else if(id == SHAREDIALOG){
@@ -288,16 +266,28 @@ public class BablrrActivity extends TApplet {
 		else if(id == SPLASHDIALOG){
 			System.out.println("!!! from SPLASHDIALOG");
 			AlertDialog.Builder alert = new AlertDialog.Builder(this);
-			AlertDialog ad = alert.create();
+			splashDialog = alert.create();
 			final LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
+			// TODO: add splash dialog text
 			final View vg = inflater.inflate(com.hersan.bablrr.R.layout.splashdialog,
 					(ViewGroup) findViewById(com.hersan.bablrr.R.id.splashdialog_root));
 
-			ad.setView(vg);
-			// TODO : dismiss on any click !
-			ad.setCanceledOnTouchOutside(true);
-			ad.setOnCancelListener(new DialogInterface.OnCancelListener(){
+
+			// to dismiss on any click : 
+			//   dismiss if clicked on dialog
+			vg.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					dismissDialog(SPLASHDIALOG);
+					dismissedSplash = true;
+					showDialog(INPUTTEXTDIALOG);
+				}
+			});
+
+			// dismiss if clicked outside the dialog
+			splashDialog.setCanceledOnTouchOutside(true);
+			splashDialog.setOnCancelListener(new DialogInterface.OnCancelListener(){
 				@Override
 				public void onCancel(DialogInterface dialog){
 					dismissDialog(SPLASHDIALOG);
@@ -305,28 +295,41 @@ public class BablrrActivity extends TApplet {
 					showDialog(INPUTTEXTDIALOG);
 				}
 			});
-			return ad;
+
+			splashDialog.setView(vg);
+			return splashDialog;
 		}
 		////////
 		else if(id == INFODIALOG){
 			System.out.println("!!! from INFODIALOG");
 			AlertDialog.Builder alert = new AlertDialog.Builder(this);
-			AlertDialog ad = alert.create();
+			infoDialog = alert.create();
 			final LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
+			// TODO: add info dialog text
 			final View vg = inflater.inflate(com.hersan.bablrr.R.layout.infodialog,
 					(ViewGroup) findViewById(com.hersan.bablrr.R.id.infodialog_root));
 
-			ad.setView(vg);
-			ad.setCanceledOnTouchOutside(true);
-			ad.setOnCancelListener(new DialogInterface.OnCancelListener(){
+			// to dismiss on any click : 
+			//   dismiss if clicked on dialog
+			vg.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					dismissDialog(INFODIALOG);
+				}
+			});
+
+			// dismiss if clicked outside the dialog
+			infoDialog.setCanceledOnTouchOutside(true);
+			infoDialog.setOnCancelListener(new DialogInterface.OnCancelListener(){
 				@Override
 				public void onCancel(DialogInterface dialog){
 					dismissDialog(INFODIALOG);
 				}
 			});
 
-			return ad;
+			infoDialog.setView(vg);
+			return infoDialog;
 		}
 
 		return null;
@@ -350,14 +353,13 @@ public class BablrrActivity extends TApplet {
 			finish();
 			return true;
 		case com.hersan.bablrr.R.id.infobutton:
-			// TODO: add info dialog text
 			showDialog(INFODIALOG);
 			return true;
 		default: 
 			return false;
 		}
 	}
-
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -372,11 +374,33 @@ public class BablrrActivity extends TApplet {
 	}
 
 	/*
-	 * Sets up all the buttons when app is first launched and also when we come back from twitter/facebook login
+	 * Sets up the main view of the app, with buttons (or not)
 	 */
 	private void onResumeCreateHelper(){
+		if(dismissedSplash == true){
+			this.onResumeCreateHelperFull();
+		}
+		else{
+			onResumeCreateHelperClean();
+		}
+	}
+
+	/*
+	 * Sets up a blank background while we enter text for the first time
+	 */
+	private void onResumeCreateHelperClean(){
 		// DEBUG
-		System.out.println("!!!!!!: Bablrr - onResumeCreateHelper");
+		System.out.println("!!!!!!: Bablrr - onResumeCreateHelperClean");
+
+		setContentView(com.hersan.bablrr.R.layout.clean);
+	}
+
+	/*
+	 * Sets up all the buttons when we first enter text, and also when we come back from twitter/facebook login
+	 */
+	private void onResumeCreateHelperFull(){
+		// DEBUG
+		System.out.println("!!!!!!: Bablrr - onResumeCreateHelperFull");
 
 		setContentView(com.hersan.bablrr.R.layout.main);
 
@@ -449,7 +473,7 @@ public class BablrrActivity extends TApplet {
 		}
 
 		// if message is not set, prompt user for message
-		// get text message from inbput dialog
+		// get text message from input dialog
 		if((theStringMessage == null) || (theStringMessage.equals(""))){
 			if(dismissedSplash == true){
 				showDialog(INPUTTEXTDIALOG);
