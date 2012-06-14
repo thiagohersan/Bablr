@@ -40,18 +40,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" >
 
-        <!--
-             <Button 
-            android:id="@+id/backbutton"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_marginBottom="@dimen/buttonPad"
-            android:layout_marginTop="@dimen/buttonPad"
-            android:text="Restart" />
-        -->
-        <!-- android:layout_weight="1" -->
-
         <Button
             android:id="@+id/backbutton"
             android:layout_width="fill_parent"
@@ -70,19 +58,6 @@
             android:textColor="#ffffff" />
         <!-- android:background="@drawable/bablrr_button_restart" /> -->
 
-
-        <!--
-             <Button 
-            android:id="@+id/regenbutton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_column="1"
-            android:layout_marginBottom="@dimen/buttonPad"
-            android:layout_marginTop="@dimen/buttonPad"
-            android:layout_weight="1"
-            android:text="Re-Make" />
-        -->
-
         <Button
             android:id="@+id/regenbutton"
             android:layout_width="fill_parent"
@@ -100,19 +75,6 @@
             android:textColor="#ffffff" />
         <!-- android:background="@drawable/bablrr_button_remake" /> -->
 
-
-        <!--
-             <Button 
-            android:id="@+id/sharebutton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_column="2"
-            android:layout_marginBottom="@dimen/buttonPad"
-            android:layout_marginTop="@dimen/buttonPad"
-            android:layout_weight="1"
-            android:text="Save &amp; Share" />
-        -->
-
         <Button
             android:id="@+id/sharebutton"
             android:layout_width="fill_parent"
@@ -129,17 +91,6 @@
             android:text="share"
             android:textColor="#ffffff" />
         <!-- android:background="@drawable/bablrr_button_share" /> -->
-        <!--
-             <Button 
-            android:id="@+id/quitbutton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_column="2"
-            android:layout_marginBottom="@dimen/buttonPad"
-            android:layout_marginTop="@dimen/buttonPad"
-            android:layout_weight="1"
-            android:text="Quit" />
-        -->
     </TableRow>
 
 </TableLayout>
