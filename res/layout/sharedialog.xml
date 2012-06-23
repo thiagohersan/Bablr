@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/share_root"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="top"
-    android:background="#ffffff"
-    android:stretchColumns="*" >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <!--
+    <TableLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/share_root"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="#ffffff"
+        android:stretchColumns="*" >
+
+        <!--
     <TableRow
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
@@ -24,90 +27,91 @@
             android:textStyle="bold"
             android:typeface="normal" />
     </TableRow>
-    -->
+        -->
 
-    <TableRow
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
-
-        <Button
-            android:id="@+id/facebutton"
+        <TableRow
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_marginBottom="@dimen/shareButtonPad"
-            android:layout_marginLeft="@dimen/shareButtonPad"
-            android:layout_marginRight="@dimen/shareButtonPad"
-            android:layout_marginTop="@dimen/shareButtonPad"
-            android:background="@drawable/share_button_action"
-            android:drawableLeft="@drawable/bablrr_share_facebook_icon"
-            android:drawablePadding="@dimen/shareDrawPad"
-            android:gravity="left|center_vertical"
-            android:textSize="22dp"
-            android:text="Facebook" />
-    </TableRow>
+            android:layout_height="wrap_content" >
 
-    <TableRow
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+            <Button
+                android:id="@+id/facebutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginBottom="@dimen/shareButtonPad"
+                android:layout_marginLeft="@dimen/shareButtonPad"
+                android:layout_marginRight="@dimen/shareButtonPad"
+                android:layout_marginTop="@dimen/shareButtonPad"
+                android:background="@drawable/share_button_action"
+                android:drawableLeft="@drawable/bablrr_share_facebook_icon"
+                android:drawablePadding="@dimen/shareDrawPad"
+                android:gravity="left|center_vertical"
+                android:text="Facebook"
+                android:textSize="22dp" />
+        </TableRow>
 
-        <Button
-            android:id="@+id/tweetbutton"
+        <TableRow
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_marginBottom="@dimen/shareButtonPad"
-            android:layout_marginLeft="@dimen/shareButtonPad"
-            android:layout_marginRight="@dimen/shareButtonPad"
-            android:layout_marginTop="@dimen/shareButtonPad"
-            android:background="@drawable/share_button_action"
-            android:drawableLeft="@drawable/bablrr_share_twitter_icon_bird"
-            android:drawablePadding="@dimen/shareDrawPad"
-            android:gravity="left|center_vertical"
-            android:textSize="22dp"
-            android:text="Twitter" />
-    </TableRow>
+            android:layout_height="wrap_content" >
 
-    <TableRow
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+            <Button
+                android:id="@+id/tweetbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginBottom="@dimen/shareButtonPad"
+                android:layout_marginLeft="@dimen/shareButtonPad"
+                android:layout_marginRight="@dimen/shareButtonPad"
+                android:layout_marginTop="@dimen/shareButtonPad"
+                android:background="@drawable/share_button_action"
+                android:drawableLeft="@drawable/bablrr_share_twitter_icon_bird"
+                android:drawablePadding="@dimen/shareDrawPad"
+                android:gravity="left|center_vertical"
+                android:text="Twitter"
+                android:textSize="22dp" />
+        </TableRow>
 
-        <Button
-            android:id="@+id/emailbutton"
+        <TableRow
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_marginBottom="@dimen/shareButtonPad"
-            android:layout_marginLeft="@dimen/shareButtonPad"
-            android:layout_marginRight="@dimen/shareButtonPad"
-            android:layout_marginTop="@dimen/shareButtonPad"
-            android:background="@drawable/share_button_action"
-            android:drawableLeft="@drawable/bablrr_share_email_icon"
-            android:drawablePadding="@dimen/shareDrawPad"
-            android:gravity="left|center_vertical"
-            android:textSize="22dp"
-            android:text="Email" />
-    </TableRow>
+            android:layout_height="wrap_content" >
 
-    <TableRow
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+            <Button
+                android:id="@+id/emailbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginBottom="@dimen/shareButtonPad"
+                android:layout_marginLeft="@dimen/shareButtonPad"
+                android:layout_marginRight="@dimen/shareButtonPad"
+                android:layout_marginTop="@dimen/shareButtonPad"
+                android:background="@drawable/share_button_action"
+                android:drawableLeft="@drawable/bablrr_share_email_icon"
+                android:drawablePadding="@dimen/shareDrawPad"
+                android:gravity="left|center_vertical"
+                android:text="Email"
+                android:textSize="22dp" />
+        </TableRow>
 
-        <Button
-            android:id="@+id/savebutton"
+        <TableRow
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_marginBottom="@dimen/shareButtonPad"
-            android:layout_marginLeft="@dimen/shareButtonPad"
-            android:layout_marginRight="@dimen/shareButtonPad"
-            android:layout_marginTop="@dimen/shareButtonPad"
-            android:background="@drawable/share_button_action"
-            android:drawableLeft="@drawable/bablrr_share_filesave_icon"
-            android:drawablePadding="@dimen/shareDrawPad"
-            android:gravity="left|center_vertical"
-            android:textSize="22dp"
-            android:text="Save" />
-    </TableRow>
+            android:layout_height="wrap_content" >
 
-</TableLayout>
+            <Button
+                android:id="@+id/savebutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="0"
+                android:layout_marginBottom="@dimen/shareButtonPad"
+                android:layout_marginLeft="@dimen/shareButtonPad"
+                android:layout_marginRight="@dimen/shareButtonPad"
+                android:layout_marginTop="@dimen/shareButtonPad"
+                android:background="@drawable/share_button_action"
+                android:drawableLeft="@drawable/bablrr_share_filesave_icon"
+                android:drawablePadding="@dimen/shareDrawPad"
+                android:gravity="left|center_vertical"
+                android:text="Save"
+                android:textSize="22dp" />
+        </TableRow>
+    </TableLayout>
+
+</ScrollView>
