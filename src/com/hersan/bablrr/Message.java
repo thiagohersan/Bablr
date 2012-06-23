@@ -77,11 +77,19 @@ public class Message {
 	private void genImage(int initw, int inith) {
 		int w = initw;
 		int h = inith;
+		int gcnt = 1;
+		
+		System.out.println("!!!! Try "+gcnt+". Size: "+w+" x "+h);
 		int result = placeWords(w, h);
-
+		
 		while (result == FAIL) {
 			w += (int)(0.2f*w);
-			h += (int)(0.2f*h);
+			if(w > (2*h)){
+				h += (int)(0.2f*h);				
+			}
+
+			gcnt++;
+			System.out.println("!!!! Try "+gcnt+". Size: "+w+" x "+h);
 			result = placeWords(w, h);
 		}
 	}
@@ -112,7 +120,16 @@ public class Message {
 			// DEBUG
 			//System.out.println("!!!! word "+i+" : "+ti.width+ " x "+ti.height);
 
-			// if word doesn't fit in this line
+			// special case to take care of long first words that don't fit.
+			if ((xoff==0)&&(yoff==0)&&(ti.width>theGraphic.width)) {
+				theGraphic.endDraw();
+				theGraphic.dispose();
+				theGraphic.delete();
+				return FAIL;
+			}
+			
+			// if word doesn't fit in this line.
+			//    this doens't work when very first word doesn't fit in line.
 			if ((xoff+ti.width)>theGraphic.width) {
 				// reset xoffset
 				xoff = 0;
