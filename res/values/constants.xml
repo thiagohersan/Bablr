@@ -3,7 +3,7 @@
 
     <string name="app_name">bablrr</string>
     <string name="splash_text0">Welcome to bablrr!\n</string>
-    <string name="splash_text1">Send hard to monitor, encoded messages that only humans can read!\nPost to Twitter and Facebook!</string>
+    <string name="splash_text1">Send hard to monitor messages that only humans can read!\nPost to Twitter and Facebook!</string>
     <string name="splash_text2">\nBabel On!</string>
     <string name="info_text">This is the info dialog of bablrr\n\nhttp://www.bablr.com\n\nbablrrmobile@gmail.com</string>
 
