@@ -1,5 +1,23 @@
 package com.hersan.bablrr;
 
+/* TODO of TODOs : 
+ *  + Not posting very long words into the canvas.
+ *  + Need dismiss for welcome message when you tap anywhere on the screen.
+ *  + Need to hide buttons until after the first generation.
+ *  + Landscape-mode share menu is cut off
+ *  + Landscape-mode keyboard is fucking shit up
+ *  ~ Keyboard should come up automatically
+ *  - Background should be flat white canvas that appears at max size that any generated text canvas will appear. Text of course can be any size, and should appear centered.
+ *  - New Buttons with new colors and slightly weighted sizes.
+ *  - When regenerating an image, can easily crash the app. by hitting regenerate again and again. We need to block re-generations somehow.
+ *    - We should finish the regeneration process (then the user might not want to re-write) and show progress bar as we go,then show new image, then free up the menu at bottom again and allow user to write. 
+ *  - Fix memory leaks on long messages
+ * //// quick fixes
+ *  - Text for info message
+ * //// probably for v2.0
+ *  - Welcome message is only shown once and never again. with a checkbox.
+ */
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.ByteArrayInputStream;
@@ -25,6 +43,7 @@ import org.json.JSONArray;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -34,16 +53,22 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Html;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+//import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 //import android.content.DialogInterface;
 //import android.view.WindowManager;
@@ -88,7 +113,7 @@ public class BablrrActivity extends TApplet {
 
 	// some state variables
 	//private boolean showingDialog = false;
-	private boolean dismissedSplash = false;
+	//private boolean dismissedSplash = false;
 
 	// text message. or leave blank for prompt
 	private String theStringMessage = null;// = "Is this too long enough for you! Answer me please! thank you!";
@@ -148,15 +173,43 @@ public class BablrrActivity extends TApplet {
 							}
 						}).start();
 						Toast.makeText(BablrrActivity.this, "Generating Image", Toast.LENGTH_SHORT ).show();
-					}					
+					}
 				}
 			});
 
 			alert.setView(vg);
 
-			AlertDialog ad = alert.create();
+			final AlertDialog ad = alert.create();
 			ad.getWindow().setGravity(Gravity.BOTTOM);
+			
+			// to get a keyboard up automatically
+			textInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+				@Override
+				public void onFocusChange(View v, boolean hasFocus) {
+					if(hasFocus == true){
+						// TODO : test this on android with no hard keyboard
+						// http://stackoverflow.com/questions/5520085/android-show-softkeyboard-with-showsoftinput-is-not-working
+						//ad.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+						InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+						imm.showSoftInputFromInputMethod(textInput.getWindowToken(), InputMethodManager.SHOW_FORCED);
+					}
+				}
+			});
 
+			// to catch ime button pressing
+			textInput.setOnEditorActionListener(new OnEditorActionListener(){
+				@Override
+				public boolean onEditorAction(TextView tv, int actionId, KeyEvent event) {
+					if (actionId == EditorInfo.IME_ACTION_DONE) {
+						System.out.println("!!! Caught the ime shoots");
+						// send to encodeButton
+						encodeButton.performClick();
+			            return true;
+			        }
+					return false;
+				}
+				
+			});
 			return ad;
 		}
 		////////
@@ -269,7 +322,6 @@ public class BablrrActivity extends TApplet {
 			splashDialog = alert.create();
 			final LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
-			// TODO: add splash dialog text
 			final View vg = inflater.inflate(com.hersan.bablrr.R.layout.splashdialog,
 					(ViewGroup) findViewById(com.hersan.bablrr.R.id.splashdialog_root));
 
@@ -280,7 +332,6 @@ public class BablrrActivity extends TApplet {
 				@Override
 				public void onClick(View v) {
 					dismissDialog(SPLASHDIALOG);
-					dismissedSplash = true;
 					showDialog(INPUTTEXTDIALOG);
 				}
 			});
@@ -291,7 +342,6 @@ public class BablrrActivity extends TApplet {
 				@Override
 				public void onCancel(DialogInterface dialog){
 					dismissDialog(SPLASHDIALOG);
-					dismissedSplash = true;
 					showDialog(INPUTTEXTDIALOG);
 				}
 			});
@@ -377,11 +427,11 @@ public class BablrrActivity extends TApplet {
 	 * Sets up the main view of the app, with buttons (or not)
 	 */
 	private void onResumeCreateHelper(){
-		if(dismissedSplash == true){
+		if(toShow != null){
 			this.onResumeCreateHelperFull();
 		}
 		else{
-			onResumeCreateHelperClean();
+			this.onResumeCreateHelperClean();
 		}
 	}
 
@@ -475,7 +525,7 @@ public class BablrrActivity extends TApplet {
 		// if message is not set, prompt user for message
 		// get text message from input dialog
 		if((theStringMessage == null) || (theStringMessage.equals(""))){
-			if(dismissedSplash == true){
+			if(toShow != null){
 				showDialog(INPUTTEXTDIALOG);
 			}
 			else{
@@ -490,7 +540,6 @@ public class BablrrActivity extends TApplet {
 							public void run(){
 								System.out.println("!!!!: canceled from schedule task!!");
 								dismissDialog(SPLASHDIALOG);
-								dismissedSplash = true;
 								showDialog(INPUTTEXTDIALOG);
 								mt.cancel();								
 							}
