@@ -50,13 +50,11 @@
             android:layout_marginRight="@dimen/mainButtonPad"
             android:layout_marginTop="@dimen/mainButtonPad"
             android:background="@drawable/bablrr_button_action"
-            android:onClick="onButtonClicked"
             android:drawablePadding="@dimen/buttonIconPad"
             android:drawableTop="@drawable/bablrr_button_write"
             android:gravity="bottom|center_horizontal"
             android:text="write"
             android:textColor="#ffffff" />
-        <!-- android:background="@drawable/bablrr_button_restart" /> -->
 
         <Button
             android:id="@+id/regenbutton"
@@ -73,7 +71,6 @@
             android:gravity="bottom|center_horizontal"
             android:text="re-make"
             android:textColor="#ffffff" />
-        <!-- android:background="@drawable/bablrr_button_remake" /> -->
 
         <Button
             android:id="@+id/sharebutton"
@@ -90,7 +87,6 @@
             android:gravity="bottom|center_horizontal"
             android:text="share"
             android:textColor="#ffffff" />
-        <!-- android:background="@drawable/bablrr_button_share" /> -->
     </TableRow>
 
 </TableLayout>
