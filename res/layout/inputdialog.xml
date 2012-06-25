@@ -3,6 +3,7 @@
     android:id="@+id/dialog_root"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
     android:gravity="top"
     android:orientation="horizontal" >
 
@@ -10,19 +11,23 @@
         android:id="@+id/inputtextdialog"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         android:layout_weight="0.3"
         android:gravity="top"
-        android:hint="Enter text... (140 characters limit)"
-        android:imeOptions="actionGo|actionSend|actionNext|actionDone"
+        android:hint="Enter text... (100 characters limit)"
+        android:imeActionLabel="Encode"
+        android:imeOptions="actionDone"
         android:inputType="textShortMessage|textCapSentences|textAutoCorrect|textMultiLine"
-        android:maxLength="140"
-        android:maxLines="3" />
+        android:maxLength="100"
+        android:maxLines="3"
+        android:minLines="2" />
+    <!-- android:imeOptions="actionGo|actionSend|actionNext|actionDone|flagNoExtractUi" -->
 
     <Button
         android:id="@+id/encodebutton"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="0.7"
+        android:layout_weight="0.9"
         android:text="encode" />
 
 </LinearLayout>
