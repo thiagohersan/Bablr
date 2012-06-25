@@ -7,8 +7,9 @@ package com.hersan.bablrr;
  *  + Landscape-mode share menu is cut off
  *  + Landscape-mode keyboard is fucking shit up
  *  ~ Keyboard should come up automatically
- *  - Background should be flat white canvas that appears at max size that any generated text canvas will appear. Text of course can be any size, and should appear centered.
+ *  + Background should be flat white canvas that appears at max size that any generated text canvas will appear. Text of course can be any size, and should appear centered.
  *  - New Buttons with new colors and slightly weighted sizes.
+ *  - The very top of letters are being cut off on the image
  *  - When regenerating an image, can easily crash the app. by hitting regenerate again and again. We need to block re-generations somehow.
  *    - We should finish the regeneration process (then the user might not want to re-write) and show progress bar as we go,then show new image, then free up the menu at bottom again and allow user to write. 
  *  - Fix memory leaks on long messages
@@ -442,7 +443,20 @@ public class BablrrActivity extends TApplet {
 		// DEBUG
 		System.out.println("!!!!!!: Bablrr - onResumeCreateHelperClean");
 
-		setContentView(com.hersan.bablrr.R.layout.clean);
+		//setContentView(com.hersan.bablrr.R.layout.clean);
+		setContentView(com.hersan.bablrr.R.layout.main);
+
+		// set up surface to show image
+		imageSurface = (ImageView) findViewById(com.hersan.bablrr.R.id.textimageview);
+
+		// set up buttons!
+		backButton = (Button) findViewById(com.hersan.bablrr.R.id.backbutton);
+		shareButton = (Button) findViewById(com.hersan.bablrr.R.id.sharebutton);
+		regenButton = (Button) findViewById(com.hersan.bablrr.R.id.regenbutton);
+
+		backButton.setVisibility(View.INVISIBLE);
+		shareButton.setVisibility(View.INVISIBLE);
+		regenButton.setVisibility(View.INVISIBLE);
 	}
 
 	/*
