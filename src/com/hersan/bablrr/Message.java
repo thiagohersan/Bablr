@@ -112,16 +112,14 @@ public class Message {
 		float yoff = 0;
 
 		// for every word w
-		//for (int i=0; i<words.size(); i++) {
-			//Word w = words.get(i);
 		for(Word w : words){
 			PImage ti = w.getDImage();
 
 			// DEBUG
 			//System.out.println("!!!! word "+i+" : "+ti.width+ " x "+ti.height);
 
-			// special case to take care of long first words that don't fit.
-			if ((xoff==0)&&(yoff==0)&&(ti.width>theGraphic.width)) {
+			// special case to take care of long words that don't fit in their own line.
+			if ((ti.width>theGraphic.width)) {
 				theGraphic.endDraw();
 				theGraphic.dispose();
 				theGraphic.delete();
@@ -129,7 +127,7 @@ public class Message {
 			}
 			
 			// if word doesn't fit in this line.
-			//    this doens't work when very first word doesn't fit in line.
+			//    this doens't work when very first word of a line doesn't fit in the line.
 			if ((xoff+ti.width)>theGraphic.width) {
 				// reset xoffset
 				xoff = 0;
