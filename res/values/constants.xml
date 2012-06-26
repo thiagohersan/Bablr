@@ -8,15 +8,17 @@
     <string name="info_text">This is the info dialog of bablrr\n\nhttp://www.bablr.com\n\nbablrrmobile@gmail.com</string>
 
     <dimen name="mainButtonPad">5dp</dimen>
-    <dimen name="mainButtonDrawablePad">5dp</dimen>
+    <dimen name="mainButtonDrawablePad">-12dp</dimen>
     <dimen name="textBoxPad">15dp</dimen>
     <dimen name="buttonIconPad">-10dp</dimen>
     <dimen name="shareButtonPad">0dp</dimen>
     <dimen name="shareDrawPad">10dp</dimen>
     <dimen name="shareTablePad">30dp</dimen>
 
-    <color name="bablrrBlue">#30B1E3</color>
-    <color name="buttonOnFocus">#FFFFFF</color>
-    <color name="buttonOnPress">#F5B800</color>
+    <color name="bablrrBlue">#FF30B1E3</color>
+    <color name="buttonGreen">#FF46AB62</color>
+    <color name="buttonPurple">#FF986CBA</color>
+    <color name="buttonOnFocus">#FFF48E18</color>
+    <color name="buttonOnPress">#FFFFB719</color>
 
 </resources>
