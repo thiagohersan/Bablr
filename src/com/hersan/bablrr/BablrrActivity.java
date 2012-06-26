@@ -9,8 +9,7 @@ package com.hersan.bablrr;
  *  + Background should be flat white canvas that appears at max size that any generated text canvas will appear. Text of course can be any size, and should appear centered.
  *  ~ Keyboard should come up automatically
  *  + New Buttons with new colors
- *  - Need to block re-generations somehow.
- *    - We should finish the regeneration (then the user might not want to re-write) and show progress bar as we go,then show new image, then free up the menu at bottom again and allow user to write. 
+ *  + Need to block re-generations somehow
  *  - The very top of letters are being cut off on the image
  *  - Fix memory leaks on long messages
  * /////////////////////////////
@@ -46,6 +45,7 @@ import org.json.JSONArray;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -106,8 +106,8 @@ public class BablrrActivity extends TApplet {
 	////////////////
 
 	// initial size of final image
-	private static final int INITW = 300;
-	private static final int INITH = 600;
+	private static final int INITW = 500;
+	private static final int INITH = 400;
 
 	// dialog ids
 	private static final int INPUTTEXTDIALOG = 0;
@@ -503,18 +503,23 @@ public class BablrrActivity extends TApplet {
 				// re-gen image from text in a thread
 				// from : http://developer.android.com/resources/articles/painless-threading.html
 				if((theStringMessage != null) && (!theStringMessage.equals(""))){
+					// show the progress dialog and regen in a separate thread
+					final ProgressDialog mPD = ProgressDialog.show(BablrrActivity.this, "", "Regenerating Image...", true);
 					// the thread to re-generate the image.
 					new Thread(new Runnable() {
 						public void run(){
 							genImageFromText();
 							// but can't update image view from thread
 							imageSurface.post(new Runnable(){
-								// imageSurface.setImageBitmap(toShow);
-								public void run(){showImageFromText();}
+								// update the image view and dismiss progress dialog...
+								public void run(){
+									showImageFromText();
+									mPD.dismiss();
+								}
 							});
 						}
 					}).start();
-					Toast.makeText(BablrrActivity.this, "Regenerating Image", Toast.LENGTH_SHORT ).show();
+					//Toast.makeText(BablrrActivity.this, "Regenerating Image", Toast.LENGTH_SHORT ).show();
 				}
 			}
 		});
