@@ -85,7 +85,7 @@ public class Word {
 	// create the undistorted image.
 	//   get word, write it to an graphic, measure word, add line, crop.
 	private void createUImage() {
-		PGraphics pg = myProcessing.createGraphics(theWord.length()*FONTSIZE, 90, PApplet.JAVA2D);
+		PGraphics pg = myProcessing.createGraphics(theWord.length()*FONTSIZE, 2*FONTSIZE, PApplet.JAVA2D);
 		PFont theFont = myProcessing.createFont(WHICHFONT, FONTSIZE);
 
 		// write word on graphic
@@ -267,7 +267,6 @@ public class Word {
 	//   from : http://homepages.inf.ed.ac.uk/rbf/HIPR2/affine.htm
 	//
 	private static void horizontalShear(PImage src, PImage dst) {
-
 		// shear amount
 		float w = Word.random(0.3f, 0.7f);
 		w *= (Word.random(-1f, 1f) > 0)?1:-1;
@@ -313,7 +312,6 @@ public class Word {
 	//   simple, efficient and elegant way of vertically shifting pixels
 	//
 	private static void waveShear(PImage src, PImage dst) {
-
 		// number of waves/half-cycles in the shearing [1,4]
 		float nn = Word.random(1f, 4f);
 		// max amplitude of shearing
@@ -325,7 +323,7 @@ public class Word {
 		int k = (int)(Word.random(0f, 3f));
 
 		// resize according to src image (which could be bigger/smaller) and shear amount
-		dst.resize(src.width, (int)(src.height+2*ampY+20));
+		dst.resize(src.width, (int)(src.height+2*ampY+50));
 
 		// From : http://developer.android.com/guide/practices/design/performance.html
 		//        i < mArray.length is slowest, because the JIT can't yet optimize away 
@@ -341,24 +339,23 @@ public class Word {
 		// iterate on dst pixels..
 		for (int j=0; j<dstW; j++) {
 			for (int i=0; i<dstH; i++) {
-
 				// sinusoidal shearing
-				float yuf = 0;
+				float yoff = 0;
 				if (k<1) {
 					// constant frequency
-					yuf = i-ampY*(float)(Math.sin(Math.PI*j*nn/dstW));
+					yoff = ampY*(float)(Math.sin(Math.PI*j*nn/dstW));
 				}
 				else if (k<2) {
 					// increasing frequency
-					yuf = i-ampY*(float)(Math.sin(Math.PI*(Word.constrain(nn-1, 1, nn)*0.01f*(float)(j+dstW/2))*(j)/dstW));
+					yoff = ampY*(float)(Math.sin(Math.PI*(Word.constrain(nn-1, 1, nn)*0.01f*(float)(j+dstW/2))*(j)/dstW));
 				}
 				else if (k<3) {
 					//decreasing frequency
-					yuf = i-ampY*(float)(Math.sin(Math.PI*(Word.constrain(nn-2, 1, nn)*0.01f*(float)((dstW-j)+dstW/2))*(dstW-j)/dstW));
+					yoff = ampY*(float)(Math.sin(Math.PI*(Word.constrain(nn-2, 1, nn)*0.01f*(float)((dstW-j)+dstW/2))*(dstW-j)/dstW));
 				}
 
-				// center vertically 
-				int yu = (int)(yuf-ampY/2);
+				// add wave offset and center vertically
+				int yu = (int)(i-yoff-dst.height/2);
 				int xu = j;
 
 				// check boundaries

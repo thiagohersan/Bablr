@@ -10,7 +10,7 @@ package com.hersan.bablrr;
  *  ~ Keyboard should come up automatically
  *  + New Buttons with new colors
  *  + Need to block re-generations somehow
- *  - The very top of letters are being cut off on the image
+ *  + The very top of letters are being cut off on the image
  *  - Fix memory leaks on long messages
  * /////////////////////////////
  * //// quick fixes
