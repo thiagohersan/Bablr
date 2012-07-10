@@ -74,7 +74,7 @@
             android:layout_marginTop="@dimen/mainButtonPad"
             android:background="@drawable/bablrr_purple_button_action"
             android:drawablePadding="@dimen/mainButtonDrawablePad"
-            android:drawableTop="@drawable/bablrr_white_button_write"
+            android:drawableTop="@drawable/bablrr_white_button_regen"
             android:gravity="bottom|center_horizontal"
             android:textSize="0dp" />
 
