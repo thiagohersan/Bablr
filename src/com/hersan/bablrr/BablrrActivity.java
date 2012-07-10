@@ -9,12 +9,13 @@ package com.hersan.bablrr;
  *  + Background should be flat white canvas that appears at max size that any generated text canvas will appear. Text of course can be any size, and should appear centered.
  *  ~ Keyboard should come up automatically
  *  + New Buttons with new colors
- *  + Need to block re-generations somehow
+ *  + Need to block re-generations somehow 
  *  + The very top of letters are being cut off on the image
+ *  - Show status dialog when user hits "encode" button (right now it only shows when they re-gen)
  *  - Fix memory leaks on long messages
  * /////////////////////////////
  * //// quick fixes
- *  - Text for info message
+ *  + Text for info message
  * ////////////////////////////
  * //// probably for v2.0
  *  - Welcome message is only shown once and never again. with a checkbox
