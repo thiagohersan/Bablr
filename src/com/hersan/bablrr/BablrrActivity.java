@@ -11,7 +11,8 @@ package com.hersan.bablrr;
  *  + New Buttons with new colors
  *  + Need to block re-generations somehow 
  *  + The very top of letters are being cut off on the image
- *  - Show status dialog when user hits "encode" button (right now it only shows when they re-gen)
+ *  + Fix back button behavior on very first input screen
+ *  + Show status dialog when user hits "encode" button (right now it only shows when they re-gen)
  *  - Fix memory leaks on long messages
  * /////////////////////////////
  * //// quick fixes
@@ -20,6 +21,7 @@ package com.hersan.bablrr;
  * //// probably for v2.0
  *  - Welcome message is only shown once and never again. with a checkbox
  *  - Buttons with slightly weighted sizes
+ *  - send images to friends' walls on fb
  */
 
 import java.io.File;
@@ -131,6 +133,9 @@ public class BablrrActivity extends TApplet {
 	
 	// some of the dialogs
 	private AlertDialog splashDialog, infoDialog;
+	
+	// timer for splash dismiss
+	private final Timer mt = new Timer();
 
 	// private of privates
 	private Message myMessage = null;
@@ -163,6 +168,8 @@ public class BablrrActivity extends TApplet {
 				public void onClick(View v) {
 					theStringMessage = textInput.getText().toString();
 					if(!theStringMessage.equals("")){
+						// show the progress dialog and generate image in a separate thread
+						final ProgressDialog mPD = ProgressDialog.show(BablrrActivity.this, "", "Generating Image...", true);						
 						new Thread(new Runnable() {
 							public void run(){
 								genImageFromText();
@@ -172,18 +179,34 @@ public class BablrrActivity extends TApplet {
 									// imageSurface.setImageBitmap(toShow);
 									public void run(){
 										onResumeCreateHelper();
+										mPD.dismiss();
 										showImageFromText();
 									}
 								});
 							}
 						}).start();
-						Toast.makeText(BablrrActivity.this, "Generating Image", Toast.LENGTH_SHORT ).show();
+						//Toast.makeText(BablrrActivity.this, "Generating Image", Toast.LENGTH_SHORT ).show();
 					}
 				}
 			});
 
 			alert.setView(vg);
 
+			// set onkey listener in order to intercept the back button...
+			alert.setOnKeyListener(new DialogInterface.OnKeyListener(){
+				@Override
+				public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event){
+					// if back button while on very first text-input screen, then quit
+					if((keyCode == KeyEvent.KEYCODE_BACK) && (event.getAction() == KeyEvent.ACTION_DOWN) && (toShow == null)){
+						System.out.println("!!!!: from keydown event keycode == back");
+						mt.cancel();
+						finish();
+						return true;
+					}
+					return false;
+				}
+			});
+			
 			final AlertDialog ad = alert.create();
 			ad.getWindow().setGravity(Gravity.BOTTOM);
 			
@@ -361,7 +384,6 @@ public class BablrrActivity extends TApplet {
 			infoDialog = alert.create();
 			final LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
-			// TODO: add info dialog text
 			final View vg = inflater.inflate(com.hersan.bablrr.R.layout.infodialog,
 					(ViewGroup) findViewById(com.hersan.bablrr.R.id.infodialog_root));
 
@@ -405,6 +427,7 @@ public class BablrrActivity extends TApplet {
 		// Handle item selection
 		switch (item.getItemId()) {
 		case com.hersan.bablrr.R.id.quitbutton:
+			mt.cancel();
 			finish();
 			return true;
 		case com.hersan.bablrr.R.id.infobutton:
@@ -548,13 +571,14 @@ public class BablrrActivity extends TApplet {
 		// if message is not set, prompt user for message
 		// get text message from input dialog
 		if((theStringMessage == null) || (theStringMessage.equals(""))){
+			// detects whether this is the first time we go through here or not
+			//   if toShow != null, it is not the first time
 			if(toShow != null){
 				showDialog(INPUTTEXTDIALOG);
 			}
 			else{
 				// TODO : only show this the very first time (????)
 				showDialog(SPLASHDIALOG);
-				final Timer mt = new Timer();
 				mt.schedule(new TimerTask(){
 					@Override
 					public void run(){
@@ -583,7 +607,7 @@ public class BablrrActivity extends TApplet {
 
 	}
 
-
+	
 	/* Instead of a new instance of the activity being started, 
 	 * this is called on the existing instance with the Intent that was used to re-launch the activity.
 	 * 
@@ -647,6 +671,7 @@ public class BablrrActivity extends TApplet {
 	public void onDestroy(){
 		// DEBUG
 		System.out.println("!!!!!: Bablrr - onDestroy !!!");
+		mt.cancel();
 		super.onDestroy();
 	}
 
