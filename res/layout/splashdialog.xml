@@ -26,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="20dp"
-                android:text="@string/splash_text0"
+                android:text="@string/splashText0"
                 android:textColor="#30b1e3"
                 android:textSize="20dp" />
         </TableRow>
@@ -39,7 +39,7 @@
                 android:id="@+id/splashtext1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/splash_text1"
+                android:text="@string/splashText1"
                 android:textColor="#ffffff"
                 android:textSize="20dp" />
         </TableRow>
@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="20dp"
-                android:text="@string/splash_text2"
+                android:text="@string/splashText2"
                 android:textColor="#30b1e3"
                 android:textSize="20dp" />
         </TableRow>
