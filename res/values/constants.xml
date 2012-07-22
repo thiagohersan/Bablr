@@ -2,11 +2,15 @@
 <resources>
 
     <string name="app_name">bablrr</string>
-    <string name="splash_text0">Welcome to bablrr!\n</string>
-    <string name="splash_text1">Send hard to monitor messages that only humans can read!\nPost to Twitter and Facebook!</string>
-    <string name="splash_text2">\nBabel On!</string>
-    <string name="info_text_old">This is the info dialog of bablrr\n\nhttp://www.bablr.com\n\nbablrrmobile@gmail.com</string>
-	<string name="info_text">Thanks for using Bablrr!\nMake sure only humans can read the messages you send by posting text that is not machine readable.\nBablrr is happy to help lend a hand in all your super sleuth activities!\n\nCarry on and Babel On!\n\nOur application is in a beta stage and we welcome your feedback. Send your thoughts to support@bablrr.com or visit our website:\nwww.bablrr.com</string>
+    <integer name="appVerCode">1</integer>
+    <string name="appVerName">0.9</string>
+
+    <string name="splashText0">Welcome to bablrr!\n</string>
+    <string name="splashText1">Send hard to monitor messages through email, Twitter or Facebook!</string>
+    <string name="splashText2">\nBabel On!</string>
+
+    <string name="infoTextOld">This is the info dialog of bablrr\n\nhttp://www.bablr.com\n\nbablrrmobile@gmail.com</string>
+    <string name="infoText">Thanks for using Bablrr!\n(version: %1$s)\n\nMake sure only humans can read the messages you send by posting text that is not machine readable.\n\nCarry on and Babel On!\n\nOur application is in a beta stage and we welcome your feedback. Send your thoughts to support@bablrr.com or visit our website:\nwww.bablrr.com</string>
 
     <dimen name="mainButtonPad">5dp</dimen>
     <dimen name="mainButtonDrawablePad">-12dp</dimen>
