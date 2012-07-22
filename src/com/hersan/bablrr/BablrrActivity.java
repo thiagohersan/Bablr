@@ -7,12 +7,13 @@ package com.hersan.bablrr;
  *  + Landscape-mode share menu is cut off
  *  + Landscape-mode keyboard is fucking shit up
  *  + Background should be flat white canvas that appears at max size that any generated text canvas will appear. Text of course can be any size, and should appear centered.
- *  ~ Keyboard should come up automatically
+ *  + Keyboard should come up automatically
  *  + New Buttons with new colors
  *  + Need to block re-generations somehow 
  *  + The very top of letters are being cut off on the image
  *  + Fix back button behavior on very first input screen
  *  + Show status dialog when user hits "encode" button (right now it only shows when they re-gen)
+ *  + Version number on info
  *  - Fix memory leaks on long messages
  * /////////////////////////////
  * //// quick fixes
@@ -21,7 +22,8 @@ package com.hersan.bablrr;
  * //// probably for v2.0
  *  - Welcome message is only shown once and never again. with a checkbox
  *  - Buttons with slightly weighted sizes
- *  - send images to friends' walls on fb
+ *  - Send images to friends' walls on fb
+ *  - See if we can force soft keyboard to show up on phones with hard keyboard   
  */
 
 import java.io.File;
@@ -65,6 +67,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+//import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 //import android.view.WindowManager;
@@ -135,7 +138,7 @@ public class BablrrActivity extends TApplet {
 	private AlertDialog splashDialog, infoDialog;
 	
 	// timer for splash dismiss
-	private final Timer mt = new Timer();
+	private final Timer myTimer = new Timer();
 
 	// private of privates
 	private Message myMessage = null;
@@ -174,6 +177,8 @@ public class BablrrActivity extends TApplet {
 							public void run(){
 								genImageFromText();
 								dismissDialog(INPUTTEXTDIALOG);
+								// cancel the scheduled input dialog from showing once we've 
+								myTimer.cancel();
 								// but can't update image view from thread
 								runOnUiThread(new Runnable(){
 									// imageSurface.setImageBitmap(toShow);
@@ -199,7 +204,7 @@ public class BablrrActivity extends TApplet {
 					// if back button while on very first text-input screen, then quit
 					if((keyCode == KeyEvent.KEYCODE_BACK) && (event.getAction() == KeyEvent.ACTION_DOWN) && (toShow == null)){
 						System.out.println("!!!!: from keydown event keycode == back");
-						mt.cancel();
+						myTimer.cancel();
 						finish();
 						return true;
 					}
@@ -215,7 +220,6 @@ public class BablrrActivity extends TApplet {
 				@Override
 				public void onFocusChange(View v, boolean hasFocus) {
 					if(hasFocus == true){
-						// TODO : test this on android with no hard keyboard
 						// http://stackoverflow.com/questions/5520085/android-show-softkeyboard-with-showsoftinput-is-not-working
 						//ad.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 						InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -387,14 +391,31 @@ public class BablrrActivity extends TApplet {
 			final View vg = inflater.inflate(com.hersan.bablrr.R.layout.infodialog,
 					(ViewGroup) findViewById(com.hersan.bablrr.R.id.infodialog_root));
 
-			// to dismiss on any click : 
-			//   dismiss if clicked on dialog
+			// !#^@*#ing #^!@ to get version number onto a string
+			final TextView theInfoText = (TextView) vg.findViewById(com.hersan.bablrr.R.id.infotext);
+			theInfoText.setText(getResources().getString(com.hersan.bablrr.R.string.infoText, getResources().getString(com.hersan.bablrr.R.string.appVerName)));
+
+			// dismiss if clicked on dialog
+			/*
 			vg.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					dismissDialog(INFODIALOG);
 				}
 			});
+			*/
+
+			// dismiss on any touch event : 
+			/*
+			vg.setOnTouchListener(new View.OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					System.out.println("DDDD: from ontouch!");
+					dismissDialog(INFODIALOG);
+					return false;
+				}
+			});
+ 			*/
 
 			// dismiss if clicked outside the dialog
 			infoDialog.setCanceledOnTouchOutside(true);
@@ -404,6 +425,7 @@ public class BablrrActivity extends TApplet {
 					dismissDialog(INFODIALOG);
 				}
 			});
+
 
 			infoDialog.setView(vg);
 			return infoDialog;
@@ -427,7 +449,7 @@ public class BablrrActivity extends TApplet {
 		// Handle item selection
 		switch (item.getItemId()) {
 		case com.hersan.bablrr.R.id.quitbutton:
-			mt.cancel();
+			myTimer.cancel();
 			finish();
 			return true;
 		case com.hersan.bablrr.R.id.infobutton:
@@ -443,7 +465,7 @@ public class BablrrActivity extends TApplet {
 	public void onCreate(Bundle savedInstanceState) {
 		// DEBUG
 		System.out.println("!!!!!!: Bablrr - onCreate");
-
+		
 		// house-keeping
 		super.onCreate(savedInstanceState);
 
@@ -579,7 +601,7 @@ public class BablrrActivity extends TApplet {
 			else{
 				// TODO : only show this the very first time (????)
 				showDialog(SPLASHDIALOG);
-				mt.schedule(new TimerTask(){
+				myTimer.schedule(new TimerTask(){
 					@Override
 					public void run(){
 						runOnUiThread(new Runnable(){
@@ -588,7 +610,7 @@ public class BablrrActivity extends TApplet {
 								System.out.println("!!!!: canceled from schedule task!!");
 								dismissDialog(SPLASHDIALOG);
 								showDialog(INPUTTEXTDIALOG);
-								mt.cancel();								
+								myTimer.cancel();								
 							}
 						});
 
@@ -671,7 +693,7 @@ public class BablrrActivity extends TApplet {
 	public void onDestroy(){
 		// DEBUG
 		System.out.println("!!!!!: Bablrr - onDestroy !!!");
-		mt.cancel();
+		myTimer.cancel();
 		super.onDestroy();
 	}
 
