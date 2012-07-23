@@ -2,8 +2,6 @@
 <resources>
 
     <string name="app_name">bablrr</string>
-    <integer name="appVerCode">1</integer>
-    <string name="appVerName">0.9</string>
 
     <string name="splashText0">Welcome to bablrr!\n</string>
     <string name="splashText1">Send hard to monitor messages through email, Twitter or Facebook!</string>
