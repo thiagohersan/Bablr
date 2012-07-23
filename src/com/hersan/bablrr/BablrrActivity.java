@@ -55,6 +55,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -110,6 +111,9 @@ public class BablrrActivity extends TApplet {
 	///////////////
 	// constants and variables
 	////////////////
+
+	// debug variable
+	private static final boolean WEDEBUG = false;
 
 	// initial size of final image
 	private static final int INITW = 500;
@@ -203,7 +207,7 @@ public class BablrrActivity extends TApplet {
 				public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event){
 					// if back button while on very first text-input screen, then quit
 					if((keyCode == KeyEvent.KEYCODE_BACK) && (event.getAction() == KeyEvent.ACTION_DOWN) && (toShow == null)){
-						System.out.println("!!!!: from keydown event keycode == back");
+						if(WEDEBUG) System.out.println("!!!!: from keydown event keycode == back");
 						myTimer.cancel();
 						finish();
 						return true;
@@ -233,7 +237,7 @@ public class BablrrActivity extends TApplet {
 				@Override
 				public boolean onEditorAction(TextView tv, int actionId, KeyEvent event) {
 					if (actionId == EditorInfo.IME_ACTION_DONE) {
-						System.out.println("!!! Caught the ime shoots");
+						if(WEDEBUG) System.out.println("!!! Caught the ime shoots");
 						// send to encodeButton
 						encodeButton.performClick();
 			            return true;
@@ -246,7 +250,7 @@ public class BablrrActivity extends TApplet {
 		}
 		////////
 		else if(id == SHAREDIALOG){
-			System.out.println("!!! from SHAREDIALOG");
+			if(WEDEBUG) System.out.println("!!! from SHAREDIALOG");
 			final AlertDialog.Builder alert = new AlertDialog.Builder(this);
 
 			// build view group dynamically
@@ -349,7 +353,7 @@ public class BablrrActivity extends TApplet {
 		}
 		////////
 		else if(id == SPLASHDIALOG){
-			System.out.println("!!! from SPLASHDIALOG");
+			if(WEDEBUG) System.out.println("!!! from SPLASHDIALOG");
 			AlertDialog.Builder alert = new AlertDialog.Builder(this);
 			splashDialog = alert.create();
 			final LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -383,7 +387,7 @@ public class BablrrActivity extends TApplet {
 		}
 		////////
 		else if(id == INFODIALOG){
-			System.out.println("!!! from INFODIALOG");
+			if(WEDEBUG) System.out.println("!!! from INFODIALOG");
 			AlertDialog.Builder alert = new AlertDialog.Builder(this);
 			infoDialog = alert.create();
 			final LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -392,8 +396,17 @@ public class BablrrActivity extends TApplet {
 					(ViewGroup) findViewById(com.hersan.bablrr.R.id.infodialog_root));
 
 			// !#^@*#ing #^!@ to get version number onto a string
+			// get version name
+			String verName = "";
+			try{
+				verName = getPackageManager().getPackageInfo(getPackageName(),0).versionName;
+			}
+			catch(PackageManager.NameNotFoundException e){
+				verName = "1.0";
+			}
+
 			final TextView theInfoText = (TextView) vg.findViewById(com.hersan.bablrr.R.id.infotext);
-			theInfoText.setText(getResources().getString(com.hersan.bablrr.R.string.infoText, getResources().getString(com.hersan.bablrr.R.string.appVerName)));
+			theInfoText.setText(getResources().getString(com.hersan.bablrr.R.string.infoText, verName));
 
 			// dismiss if clicked on dialog
 			/*
@@ -410,7 +423,7 @@ public class BablrrActivity extends TApplet {
 			vg.setOnTouchListener(new View.OnTouchListener() {
 				@Override
 				public boolean onTouch(View v, MotionEvent event) {
-					System.out.println("DDDD: from ontouch!");
+					if(WEDEBUG) System.out.println("DDDD: from ontouch!");
 					dismissDialog(INFODIALOG);
 					return false;
 				}
@@ -464,7 +477,7 @@ public class BablrrActivity extends TApplet {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// DEBUG
-		System.out.println("!!!!!!: Bablrr - onCreate");
+		if(WEDEBUG) System.out.println("!!!!!!: Bablrr - onCreate");
 		
 		// house-keeping
 		super.onCreate(savedInstanceState);
@@ -490,7 +503,7 @@ public class BablrrActivity extends TApplet {
 	 */
 	private void onResumeCreateHelperClean(){
 		// DEBUG
-		System.out.println("!!!!!!: Bablrr - onResumeCreateHelperClean");
+		if(WEDEBUG) System.out.println("!!!!!!: Bablrr - onResumeCreateHelperClean");
 
 		//setContentView(com.hersan.bablrr.R.layout.clean);
 		setContentView(com.hersan.bablrr.R.layout.main);
@@ -513,7 +526,7 @@ public class BablrrActivity extends TApplet {
 	 */
 	private void onResumeCreateHelperFull(){
 		// DEBUG
-		System.out.println("!!!!!!: Bablrr - onResumeCreateHelperFull");
+		if(WEDEBUG) System.out.println("!!!!!!: Bablrr - onResumeCreateHelperFull");
 
 		setContentView(com.hersan.bablrr.R.layout.main);
 
@@ -579,7 +592,7 @@ public class BablrrActivity extends TApplet {
 	@Override
 	public void onResume() {
 		// DEBUG
-		System.out.println("!!!!!: Bablrr - onResume");
+		if(WEDEBUG) System.out.println("!!!!!: Bablrr - onResume");
 
 		super.onResume();
 
@@ -607,7 +620,7 @@ public class BablrrActivity extends TApplet {
 						runOnUiThread(new Runnable(){
 							@Override
 							public void run(){
-								System.out.println("!!!!: canceled from schedule task!!");
+								if(WEDEBUG) System.out.println("!!!!: canceled from schedule task!!");
 								dismissDialog(SPLASHDIALOG);
 								showDialog(INPUTTEXTDIALOG);
 								myTimer.cancel();								
@@ -642,7 +655,7 @@ public class BablrrActivity extends TApplet {
 	@Override
 	public void onNewIntent(Intent intent) {
 		// DEBUG
-		System.out.println("!!!!!: Bablrr - onNewIntent");
+		if(WEDEBUG) System.out.println("!!!!!: Bablrr - onNewIntent");
 
 		Uri uri = intent.getData();
 
@@ -662,7 +675,7 @@ public class BablrrActivity extends TApplet {
 					this.postToTwitter();
 				}
 				catch(TwitterException e){
-					System.out.println("!!!: Error getting access token in onNewIntent");
+					if(WEDEBUG) System.out.println("!!!: Error getting access token in onNewIntent");
 				}
 			}
 		}
@@ -677,7 +690,7 @@ public class BablrrActivity extends TApplet {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// DEBUG
-		System.out.println("!!!!!: Bablrr - onActivityResult");
+		if(WEDEBUG) System.out.println("!!!!!: Bablrr - onActivityResult");
 
 		super.onActivityResult(requestCode, resultCode, data);
 
@@ -692,7 +705,7 @@ public class BablrrActivity extends TApplet {
 	@Override
 	public void onDestroy(){
 		// DEBUG
-		System.out.println("!!!!!: Bablrr - onDestroy !!!");
+		if(WEDEBUG) System.out.println("!!!!!: Bablrr - onDestroy !!!");
 		myTimer.cancel();
 		super.onDestroy();
 	}
@@ -709,7 +722,7 @@ public class BablrrActivity extends TApplet {
 	 */
 	private void genImageFromText() {
 		// have valid string, create message
-		System.out.println("!!!!! genImageFromText: "+theStringMessage);
+		if(WEDEBUG) System.out.println("!!!!! genImageFromText: "+theStringMessage);
 
 		// Message constructor should be able to deal with null or empty string for thePicturePath
 		myMessage = new Message(theStringMessage, this, INITW, INITH);
@@ -726,7 +739,7 @@ public class BablrrActivity extends TApplet {
 		toShow = Bitmap.createBitmap(tmpImg.pixels, tmpImg.width, tmpImg.height, Bitmap.Config.ARGB_8888); 
 
 		// DEBUG
-		System.out.println("!!! toShow : "+tmpImg.width+" x "+tmpImg.height);
+		if(WEDEBUG) System.out.println("!!! toShow : "+tmpImg.width+" x "+tmpImg.height);
 
 		// clean up?
 		tmpImg.delete();
@@ -747,7 +760,7 @@ public class BablrrActivity extends TApplet {
 		toSave.resize(Math.min(400, toSave.width), 0);
 
 		// DEBUG
-		System.out.println("!!! toSave : "+toSave.width+" x "+toSave.height);
+		if(WEDEBUG) System.out.println("!!! toSave : "+toSave.width+" x "+toSave.height);
 
 		// path to sdcard
 		File imgDir  = new File(Environment.getExternalStorageDirectory()+File.separator+"bablrr"+File.separator);
@@ -797,11 +810,11 @@ public class BablrrActivity extends TApplet {
 			imgUri = uri;
 		}
 		catch (FileNotFoundException e) {
-			e.printStackTrace();
+			if(WEDEBUG) e.printStackTrace();
 			sawError = true;
 		}
 		catch (IOException e) {
-			e.printStackTrace();
+			if(WEDEBUG) e.printStackTrace();
 			sawError = true;
 		}
 
@@ -847,8 +860,8 @@ public class BablrrActivity extends TApplet {
 				//setContentView(twitterSite);
 			}
 			catch(TwitterException e){
-				System.out.println("!!!!! somethings wrong in postToTwitter"); 
-				e.printStackTrace();
+				if(WEDEBUG) System.out.println("!!!!! somethings wrong in postToTwitter"); 
+				if(WEDEBUG) e.printStackTrace();
 			}
 
 		}
@@ -871,10 +884,10 @@ public class BablrrActivity extends TApplet {
 				});
 			}
 			catch(TwitterException e){
-				System.out.println("!!! Something wrong with Twitter updateStatus: Twitter Exception");
+				if(WEDEBUG) System.out.println("!!! Something wrong with Twitter updateStatus: Twitter Exception");
 			}
 			catch(Exception e){
-				System.out.println("!!! Something wrong with Twitter updateStatus.");
+				if(WEDEBUG) System.out.println("!!! Something wrong with Twitter updateStatus.");
 			}
 		}
 	}
@@ -889,7 +902,7 @@ public class BablrrActivity extends TApplet {
 	 */
 	private void postToFacebook(){
 		// DEBUG
-		System.out.println("!!!!!!: postToFacebook");
+		if(WEDEBUG) System.out.println("!!!!!!: postToFacebook");
 
 		final BablrrApplication myApp = (BablrrApplication)getApplication();
 
@@ -916,7 +929,7 @@ public class BablrrActivity extends TApplet {
 					// Should work for both SSO and WebView style of log in
 
 					// DEBUG
-					System.out.println("!!!!!: fb.authorize.onCreate() done!");
+					if(WEDEBUG) System.out.println("!!!!!: fb.authorize.onCreate() done!");
 
 					// set the application level facebook variables here, and call postToFacebook again.
 					myApp.fbAccessToken = myApp.fbFacebook.getAccessToken();
@@ -926,16 +939,16 @@ public class BablrrActivity extends TApplet {
 				}
 				@Override
 				public void onFacebookError(FacebookError e) {
-					System.out.println("!!!!!: fb.authorize.onFaceError");
-					e.printStackTrace();
+					if(WEDEBUG) System.out.println("!!!!!: fb.authorize.onFaceError");
+					if(WEDEBUG) e.printStackTrace();
 				}
 				@Override
 				public void onError(DialogError e) {
-					System.out.println("!!!!!: fb.authorize.onError");
+					if(WEDEBUG) System.out.println("!!!!!: fb.authorize.onError");
 				}
 				@Override
 				public void onCancel() {
-					System.out.println("!!!!!: fb.authorize.onCancel");
+					if(WEDEBUG) System.out.println("!!!!!: fb.authorize.onCancel");
 				}
 			});
 
@@ -950,7 +963,9 @@ public class BablrrActivity extends TApplet {
 			toShow.compress(Bitmap.CompressFormat.JPEG, 100, baos);
 			final byte[] bArr = baos.toByteArray();
 			try { baos.close(); }
-			catch(Exception e) { System.out.println("!!!! Something wrong when closing the bytearray in postToFacebook"); }
+			catch(Exception e) { 
+				if(WEDEBUG) System.out.println("!!!! Something wrong when closing the bytearray in postToFacebook"); 
+			}
 			//Bundle params = new Bundle();
 			//params.putByteArray("photo", bArr);
 			//params.putString("message", "");
@@ -960,7 +975,7 @@ public class BablrrActivity extends TApplet {
 			myApp.fbAsyncRunner.request("me/albums", new Bundle(), "GET", new BaseRequestListener(){
 				@Override
 				public void onComplete(final String response, final Object state) { 
-					System.out.println("!!! response from album GET: "+response);
+					if(WEDEBUG) System.out.println("!!! response from album GET: "+response);
 					try{
 						// get data object
 						JSONObject jObj = Util.parseJson(response);
@@ -972,7 +987,7 @@ public class BablrrActivity extends TApplet {
 							byteBundle.putByteArray("photo", bArr);
 							// my wall
 							if(jObj.getString("type").equalsIgnoreCase("wall")){
-								System.out.println("!!! found my wall");
+								if(WEDEBUG) System.out.println("!!! found my wall");
 								String wallID = jObj.getString("id");
 								// add to my wall
 								myApp.fbAsyncRunner.request(wallID+"/photos", byteBundle, "POST", new BaseRequestListener(), null);
@@ -982,7 +997,7 @@ public class BablrrActivity extends TApplet {
 							//  ***right now this code is turned off***
 							else if((jObj.getString("type").equalsIgnoreCase("friends_walls"))&&(i>dataArr.length())){
 								// TODO: friend picker dialog
-								System.out.println("!!! found friends_walls");
+								if(WEDEBUG) System.out.println("!!! found friends_walls");
 								String wallID = jObj.getString("id");
 								Bundle friendBundle = new Bundle();
 								friendBundle.putByteArray("photo", bArr);
@@ -1028,7 +1043,7 @@ public class BablrrActivity extends TApplet {
 		myApp.fbAsyncRunner.request("me/friends", new Bundle(), "GET", new BaseRequestListener(){
 			@Override
 			public void onComplete(final String response, final Object state) { 
-				System.out.println("!!! response from friends GET: "+response);
+				if(WEDEBUG) System.out.println("!!! response from friends GET: "+response);
 				try{
 					// get data object
 					JSONObject jObj = Util.parseJson(response);
@@ -1037,7 +1052,7 @@ public class BablrrActivity extends TApplet {
 					for(int i=0; i<dataArr.length(); i++){
 						jObj = dataArr.getJSONObject(i);
 						if((jObj.getString("name").contains("ringuita")) && (jObj.getString("name").contains("Bana"))){
-							System.out.println("!!!!! found Banana!");
+							if(WEDEBUG) System.out.println("!!!!! found Banana!");
 							String friendID = jObj.getString("id");
 							Bundle postBundle = new Bundle();
 							//postBundle.putString("link", photoLink);
@@ -1045,14 +1060,14 @@ public class BablrrActivity extends TApplet {
 							//postBundle.putString("name", "");
 							//postBundle.putString("caption", " ");
 							if(photoID.equals("") == false){
-								System.out.println("!!! has ID ");
+								if(WEDEBUG) System.out.println("!!! has ID ");
 								postBundle.putString("object_attachment", photoID);
 							}
 							// add to wall
 							myApp.fbAsyncRunner.request(friendID+"/feed", postBundle, "POST", new BaseRequestListener(){
 								@Override
 								public void onComplete(final String response, final Object state){
-									System.out.println("!!! response from friend POST: "+response);
+									if(WEDEBUG) System.out.println("!!! response from friend POST: "+response);
 								}
 							}, null);
 							break;
