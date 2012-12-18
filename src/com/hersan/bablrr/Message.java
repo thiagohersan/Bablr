@@ -164,6 +164,9 @@ public class Message {
 		theGraphic.dispose();
 		theGraphic.delete();
 
+		/// DEBUG: print some stats
+		System.out.println("!!!!!!!: from placeWords (SUCCESS): maxX = "+maxX+" , maxY = "+maxY);
+
 		// success
 		return SUCCESS;
 	}
