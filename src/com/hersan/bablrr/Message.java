@@ -121,8 +121,10 @@ public class Message {
 			// special case to take care of long words that don't fit in their own line.
 			if ((ti.width>theGraphic.width)) {
 				theGraphic.endDraw();
+				myProcessing.g.removeCache(theGraphic);
 				theGraphic.dispose();
 				theGraphic.delete();
+				theGraphic = null;
 				return FAIL;
 			}
 			
@@ -138,8 +140,10 @@ public class Message {
 			// check if out of bounds in the y direction
 			if ((yoff+ti.height) > theGraphic.height) {
 				theGraphic.endDraw();
+				myProcessing.g.removeCache(theGraphic);
 				theGraphic.dispose();
 				theGraphic.delete();
+				theGraphic = null;
 				return FAIL;
 			}
 
@@ -161,8 +165,10 @@ public class Message {
 		theImage.copy(theGraphic.get(), 0, 0, (int)(maxX+2), (int)(maxY+2), 0, 0, theImage.width, theImage.height);
 
 		// clean up
+		myProcessing.g.removeCache(theGraphic);
 		theGraphic.dispose();
 		theGraphic.delete();
+		theGraphic = null;
 
 		/// DEBUG: print some stats
 		System.out.println("!!!!!!!: from placeWords (SUCCESS): maxX = "+maxX+" , maxY = "+maxY);

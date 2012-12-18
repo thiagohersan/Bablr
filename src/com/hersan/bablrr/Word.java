@@ -118,8 +118,10 @@ public class Word {
 		Word.cropImage(pg.get(), uImage);
 
 		// clean up
+		myProcessing.g.removeCache(pg);
 		pg.dispose();
 		pg.delete();
+		pg = null;
 	}
 
 	// given src and dst images,
@@ -192,6 +194,8 @@ public class Word {
 		// clean up
 		tp0.delete();
 		tp1.delete();
+		tp0 = null;
+		tp1 = null;
 	}
 
 	/////////////////////////
